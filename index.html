@@ -6,8 +6,10 @@
 
 		<title>reveal.js</title>
 
+		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,12 +26,94 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-markdown>
+					<script type="text/template">
+						## Introducción a Broccoli.js
+
+						![Broccoli.js](img/logo.png)
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## ¿Otro framework vegetal?
+
+						- Es un compilador de aplicaciones
+						- No reemplaza a otros existentes
+						- Builds muy rápidas
+						- Código (Gulp) frente a configuración (Grunt)
+
+						![Broccoli.js](img/grunlp.jpg)
+					</script>
+				</section>
+
+				<section>
+					<h2>Trees</h2>
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li>Ni ficheros ni streams</li>
+								<li>Carpetas o directorios (trees)</li>
+								<li>Datos de entrada y de salida</li>
+							</ul>
+						</div>
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+/* Brocfile.js */
+
+var compileSass = require('broccoli-sass');
+var filterCoffeeScript = require('broccoli-coffee');
+var mergeTrees = require('broccoli-merge-trees');
+
+var sassDir = 'scss';
+var coffeeDir = 'coffeescript';
+
+var styles = compileSass([sassDir], 'app.scss', 'app.css');
+var scripts = filterCoffeeScript(coffeeDir);
+
+module.exports = mergeTrees([styles, scripts]);
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Encadenamiento</h2>
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li>Plugins encadenables</li>
+								<li>Directorios o "trees" de entrada</li>
+								<li>"Trees" de salida</li>
+							</ul>
+						</div>
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+/* Brocfile.js */
+
+var JSHinter = require('broccoli-jshint');
+var esTranspiler = require('broccoli-babel-transpiler');
+var concat = require('broccoli-concat');
+
+var es6Dir = 'app';
+
+var tree = new JSHinter(es6Dir);
+tree = esTranspiler(tree);
+tree = concat(tree, {
+  outputFile: 'app.js'
+});
+
+module.exports = tree;
+							</code></pre>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
+		<script src="js/jquery-2.2.4.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<script src="js/reveal.js"></script>
 
 		<script>
