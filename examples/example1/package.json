@@ -1,0 +1,22 @@
+{
+  "name": "example1",
+  "version": "1.0.0",
+  "description": "example 1",
+  "main": "Brocfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && broccoli build dist"
+  },
+  "author": "josex2r",
+  "license": "MIT",
+  "devDependencies": {
+    "broccoli": "^0.16.9",
+    "broccoli-concat": "^2.3.4",
+    "broccoli-es6-concatenator": "^0.1.11",
+    "eslint-config-bbva": "^1.0.3",
+    "broccoli-lint-eslint": "^3.1.0"
+  },
+  "dependencies": {
+    "broccoli-lint-eslint": "^3.1.0"
+  }
+}
