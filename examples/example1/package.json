@@ -14,9 +14,10 @@
     "broccoli-concat": "^2.3.4",
     "broccoli-es6-concatenator": "^0.1.11",
     "eslint-config-bbva": "^1.0.3",
-    "broccoli-lint-eslint": "^3.1.0"
+    "broccoli-lint-eslint": "^3.1.0",
+    "broccoli-merge-trees": "^1.1.4"
   },
-  "dependencies": {
-    "broccoli-lint-eslint": "^3.1.0"
+  "peerDependencies": {
+    "eslint": "^3.3.1"
   }
 }
