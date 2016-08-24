@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/moon.css">
 		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- Theme used for syntax highlighting of code -->
@@ -62,21 +62,14 @@
 								<li>Datos de entrada y de salida</li>
 							</ul>
 						</div>
+
 						<div class="col-xs-12">
 							<pre><code data-trim data-noescape>
-/* Brocfile.js */
-
 var compileSass = require('broccoli-sass');
-var filterCoffeeScript = require('broccoli-coffee');
-var mergeTrees = require('broccoli-merge-trees');
 
 var sassDir = 'scss';
-var coffeeDir = 'coffeescript';
 
 var styles = compileSass([sassDir], 'app.scss', 'app.css');
-var scripts = filterCoffeeScript(coffeeDir);
-
-module.exports = mergeTrees([styles, scripts]);
 							</code></pre>
 						</div>
 					</div>
@@ -92,10 +85,9 @@ module.exports = mergeTrees([styles, scripts]);
 								<li>"Trees" de salida</li>
 							</ul>
 						</div>
+
 						<div class="col-xs-12">
 							<pre><code data-trim data-noescape>
-/* Brocfile.js */
-
 var JSHinter = require('broccoli-jshint');
 var esTranspiler = require('broccoli-babel-transpiler');
 var concat = require('broccoli-concat');
@@ -107,8 +99,6 @@ tree = esTranspiler(tree);
 tree = concat(tree, {
   outputFile: 'app.js'
 });
-
-module.exports = tree;
 							</code></pre>
 						</div>
 					</div>
@@ -116,6 +106,7 @@ module.exports = tree;
 
 				<section>
 					<h2>Caché</h2>
+
 					<div class="row">
 						<div class="col-xs-12">
 							<ul>
@@ -133,6 +124,63 @@ module.exports = tree;
 					<h2>Build</h2>
 
 					<img src="img/build.jpg" style="width: 80%" />
+				</section>
+
+				<section>
+					<h2>Brocfile.js</h2>
+
+					<p>Es el fichero principal en donde escribiremos toda la lógica necesaria para compilar la aplicación.</p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li>Directorio raíz</li>
+								<li>Exporta un "tree"</li>
+							</ul>
+						</div>
+
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+/* Brocfile.js */
+
+var tree;
+// ...
+
+module.exports = tree;
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>CLI</h2>
+
+					<p>Arrancar servidor</p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li>--port [4200]</li>
+								<li>--host [localhost]</li>
+							</ul>
+						</div>
+
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+broccoli serve
+							</code></pre>
+						</div>
+					</div>
+
+					<p>Deploy</p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+broccoli build outputPath
+							</code></pre>
+						</div>
+					</div>
 				</section>
 			</div>
 		</div>
