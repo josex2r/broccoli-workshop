@@ -118,7 +118,7 @@ tree = concat(tree, {
 					</div>
 				</section>
 
-				<section data-background-image="img/nodejs.png">
+				<section data-background-image="img/nodejs.png" data-background-size="60%">
 					<h2>File System API</h2>
 
 					<div class="row">
@@ -149,7 +149,7 @@ MyPlugin.prototype.build = function() {
 					</div>
 				</section>
 
-				<section data-background-image="img/database.png">
+				<section data-background-image="img/database.png" data-background-size="60%">
 					<h2>Caché</h2>
 
 					<div class="row">
@@ -181,13 +181,13 @@ function Es6TranspilerFilter(inputTree, options) {
 					</div>
 				</section>
 
-				<section data-background-image="img/paralelism.jpg">
+				<section>
 					<h2>Adiós al paralelismo</h2>
 
 					<img src="img/paralelism.jpg" />
 				</section>
 
-				<section>
+				<section data-background-image="img/command.png" data-background-size="80%">
 					<h2>Brocfile.js</h2>
 
 					<p>Es el fichero principal en donde escribiremos toda la lógica necesaria para compilar la aplicación.</p>
@@ -213,7 +213,7 @@ module.exports = tree;
 					</div>
 				</section>
 
-				<section>
+				<section data-background-image="img/code.png" data-background-size="80%">
 					<h2>CLI</h2>
 
 					<p>Arrancar servidor</p>
@@ -250,14 +250,60 @@ broccoli build outputPath
 					<img src="img/build.jpg" style="width: 80%" />
 				</section>
 
-				<section>
-					<h2>Addons, plugins, ...?</h2>
+				<section data-markdown data-background-image="img/puzzle.png" data-background-size="60%">
+					<script type="text/template">
+						## Plugins
 
-					<img src="img/build.jpg" style="width: 80%" />
+						- Paquetes npm
+						- broccoli-plugin (herencia)
+						- Instanciación con 'new'
+						- Constructor
+						- 2 métodos principales (build, getCallbackObject)
+					</script>
+				</section>
+
+				<section data-markdown data-background-image="img/puzzle.png" data-background-size="60%">
+					<script type="text/template">
+						## Constructor
+
+						```
+						new Plugin(inputNodes, options)
+						```
+
+						- `inputNodes`: Tree/s de entrada
+						- `options`:
+						  - `name`: Nombre del plugin
+						  - `annotation`: Texto descriptivo
+						  - `persistentOutput`: Persistencia de temporales
+					</script>
+				</section>
+
+				<section data-markdown data-background-image="img/puzzle.png" data-background-size="60%">
+					<script type="text/template">
+						## Build
+
+						```
+						Plugin.prototype.build()
+						```
+
+						Es la función que se ejecuta en cada (re)build.
+
+						Variables de contexto (sólo lectura):
+
+						- `this.inputPaths`: Tree/s de entrada
+						- `this.outputPath`: Directorio temporal de escritura (`persistentOutput`)
+						- `this.cachePath`: Directorio auxiliar de caché (persistente entre builds)
+					</script>
 				</section>
 
 				<section>
 					<h2>Ejemplo 2</h2>
+
+					<p>Fight!</p>
+				</section>
+
+				<section>
+					<h2>Debugging</h2>
 
 					<p>Fight!</p>
 				</section>
