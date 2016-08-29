@@ -52,6 +52,18 @@
 					</script>
 				</section>
 
+				<section data-markdown>
+					<script type="text/template">
+						## Arquitectura
+
+						- Trees
+						- Plugins
+						- API filesystem
+						- Caché (no partial rebuild)
+						- No ejecuciones en paralelo
+					</script>
+				</section>
+
 				<section>
 					<h2>Trees</h2>
 					<div class="row">
@@ -59,7 +71,8 @@
 							<ul>
 								<li>Ni ficheros ni streams</li>
 								<li>Carpetas o directorios (trees)</li>
-								<li>Datos de entrada y de salida</li>
+								<li>Trees de entrada y de salida</li>
+								<li>Compilador n:1 (SASS)</li>
 							</ul>
 						</div>
 
@@ -81,8 +94,9 @@ var styles = compileSass([sassDir], 'app.scss', 'app.css');
 						<div class="col-xs-12">
 							<ul>
 								<li>Plugins encadenables</li>
-								<li>Directorios o "trees" de entrada</li>
-								<li>"Trees" de salida</li>
+								<li>Abstraen tareas complejas</li>
+								<li>1:n trees de entrada</li>
+								<li>1 tree de salida</li>
 							</ul>
 						</div>
 
@@ -105,6 +119,37 @@ tree = concat(tree, {
 				</section>
 
 				<section>
+					<h2>File System API</h2>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li>No es necesario directorios temporales (Grunt)</li>
+								<li>Los trees no son streams</li>
+								<li>Node 'fs'</li>
+								<li>Directorios temporales privados</li>
+							</ul>
+						</div>
+
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+var Plugin = require('broccoli-plugin');
+
+MyPlugin.prototype = Object.create(Plugin.prototype);
+MyPlugin.prototype.constructor = MyPlugin;
+function MyPlugin(inputNode) {
+  Plugin.call(this, [inputNode]);
+}
+
+MyPlugin.prototype.build = function() {
+  // Build from this.inputPaths[0] to this.outputPath
+};
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
+				<section>
 					<h2>Caché</h2>
 
 					<div class="row">
@@ -114,10 +159,32 @@ tree = concat(tree, {
 								<li>Directorio temporal</li>
 								<li>LRU cache</li>
 								<li>Se persiste la salida de cada plugin</li>
-								<li>broccoli-caching-writer</li>
 							</ul>
 						</div>
+
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+// broccoli-es6-transpiler
+
+function Es6TranspilerFilter(inputTree, options) {
+	if (!(this instanceof Es6TranspilerFilter)) {
+		return new Es6TranspilerFilter(inputTree, options);
+	}
+
+	Filter.call(this, inputTree);
+
+	this.inputTree = inputTree;
+	this.options = options || {};
+}
+							</code></pre>
+						</div>
 					</div>
+				</section>
+
+				<section>
+					<h2>Adiós al paralelismo</h2>
+
+					<img src="img/paralelism.jpg" />
 				</section>
 
 				<section>
@@ -184,9 +251,23 @@ broccoli build outputPath
 				</section>
 
 				<section>
+					<h2>Addons, plugins, ...?</h2>
+
+					<img src="img/build.jpg" style="width: 80%" />
+				</section>
+
+				<section>
 					<h2>Ejemplo 2</h2>
 
 					<p>Fight!</p>
+				</section>
+
+				<section>
+					<h2>Módulos interesantes</h2>
+
+					<p>
+						npm
+					</p>
 				</section>
 			</div>
 		</div>
