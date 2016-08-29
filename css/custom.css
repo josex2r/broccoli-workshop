@@ -3,3 +3,7 @@
     box-shadow: none;
     background: transparent;
 }
+
+.backgrounds {
+    opacity: .3;
+}
