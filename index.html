@@ -72,7 +72,7 @@
 								<li>Ni ficheros ni streams</li>
 								<li>Carpetas o directorios (trees)</li>
 								<li>Trees de entrada y de salida</li>
-								<li>Compilador n:1 (SASS)</li>
+								<li>Trees n:1</li>
 							</ul>
 						</div>
 
@@ -80,9 +80,7 @@
 							<pre><code data-trim data-noescape>
 var compileSass = require('broccoli-sass');
 
-var sassDir = 'scss';
-
-var styles = compileSass([sassDir], 'app.scss', 'app.css');
+var styles = compileSass(['scss', 'sass-vendors'], 'main.scss', 'app.css');
 							</code></pre>
 						</div>
 					</div>
@@ -106,9 +104,7 @@ var JSHinter = require('broccoli-jshint');
 var esTranspiler = require('broccoli-babel-transpiler');
 var concat = require('broccoli-concat');
 
-var es6Dir = 'app';
-
-var tree = new JSHinter(es6Dir);
+var tree = new JSHinter('app');
 tree = esTranspiler(tree);
 tree = concat(tree, {
   outputFile: 'app.js'
@@ -163,20 +159,7 @@ MyPlugin.prototype.build = function() {
 						</div>
 
 						<div class="col-xs-12">
-							<pre><code data-trim data-noescape>
-// broccoli-es6-transpiler
-
-function Es6TranspilerFilter(inputTree, options) {
-	if (!(this instanceof Es6TranspilerFilter)) {
-		return new Es6TranspilerFilter(inputTree, options);
-	}
-
-	Filter.call(this, inputTree);
-
-	this.inputTree = inputTree;
-	this.options = options || {};
-}
-							</code></pre>
+							<img src="img/tmp.png" />
 						</div>
 					</div>
 				</section>
