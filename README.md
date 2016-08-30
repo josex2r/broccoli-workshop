@@ -12,7 +12,12 @@ Presentación e introducción a [broccoli.js](http://broccolijs.com/) en españo
   - [Encadenamiento](#encadenamiento)
   - [File System API](#file-system-api)
   - [Caché](#cache)
-- []()
+- [Brocfile.js](#brocfile-js)
+- [cli](#cli)
+- [Plugins](#plugins)
+  - [Constructor](#constructor)
+  - [Build](#build)
+- [Debugging](#debugging)
 
 ## ¿Qué es broccoli.js?
 
@@ -108,3 +113,94 @@ En el momento que el algún fichero cambie, el hash no coincidirá y se volverá
 En la siguiente imagen podemos ver la carpeta temporal generada por el [ejemplo 1](https://github.com/josex2r/broccoli-workshop/tree/master/examples/example1)
 
 ![tmp](img/tmp.png)
+
+
+## Brocfile.js
+
+Al igual que `grunt` o `gulp`, también tenemos un fichero principal para ejecutar.
+
+El fichero `Brocfile.js` lo situaremos en el directorio raíz de nuestro proyecto y definiremos todo lo necesario para construir el proyecto.
+
+El único requisito que se nos impone es que se exporte un único **tree**.
+
+```javascript
+/* Brocfile.js */
+
+var tree = 'app/';
+// @TODO transform tree
+
+module.exports = tree;
+```
+
+## cli
+
+También disponemos de una librería que nos provee de los comandos necesarios para ejecutar `broccoli` desde la consola.
+
+Estos comandos se encargarán de ejecutar nuestro `Brocfile.js` de dos maneras diferentes:
+
+- `serve`: Nos permite arrancar un servidor en un determinado puerto, recompilando la aplicación en caso de que modifiquemos un fichero.
+
+```
+$ broccoli serve -p 4200
+```
+
+- `build`: Es el comando que nos permite compilar la aplicación sin arrancar un servidor. Es útil cuando queremos generar el paquete final.
+
+```
+$ broccoli build ./dist
+```
+
+## Plugins
+
+Los plugins, nos permiten obtener un único **tree** mediante la transformación de uno o varios **trees**.
+
+Los **plugins** deben exportar una clase que extienda del paquete [broccoli-plugin](https://github.com/broccolijs/broccoli-plugin), con el cual podremos sobreescribir el `constructor`y la función `build()` para realizar las transformaciones que necesitemos.
+
+A la hora de utilizarlos se deben instanciar con la palabra `new` (convención).
+
+### constructor
+
+El constructor de todo **plugin** va a recibir dos parámetros:
+
+- `inputNodes`: Array que contiene **trees**
+- `options`: Datos de inicialización
+  - `name`: Nombre del **plugin**
+  - `annotation`: Texto descriptivo
+  - `persistentOutput`: Si el árbol de salida debe ser cacheado
+
+Es necesario llamar al constructor de la clase padre desde nuestro plugin, es por ello que casi todos los plugins se inicialicen de la misma manera:
+
+```javascript
+var Plugin = require('broccoli-plugin');
+
+// Create a subclass MyPlugin derived from Plugin
+MyPlugin.prototype = Object.create(Plugin.prototype);
+MyPlugin.prototype.constructor = MyPlugin;
+function MyPlugin(inputNodes, options) {
+  options = options || {};
+  Plugin.call(this, inputNodes, {
+    annotation: options.annotation
+  });
+  this.options = options;
+}
+```
+
+### Build
+
+Esta función se ejecutará en cada (re)build.
+Para realizar las operaciones sobre los **trees** disponemos de una serie de variables de contexto (sólo lectura):
+
+- `this.inputPaths`: Array que contiene **trees**
+- `this.outputPath`: Es el la ruta del directorio de salida del plugin. Este directorio se persistirá en el `File System` en función de la variable `persistentOutput`
+- `this.cachePath`: Directorio auxiliar de caché (persistente entre builds)
+
+```javascript
+MyPlugin.prototype.build = function() {
+  var inputBuffer = fs.readFileSync(path.join(this.inputPaths[2], 'foo.txt'));
+  var outputBuffer = someCompiler(inputBuffer);
+
+  fs.writeFileSync(path.join(this.outputPath, 'bar.txt'), outputBuffer);
+};
+```
+
+## Debugging

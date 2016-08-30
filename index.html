@@ -187,8 +187,8 @@ MyPlugin.prototype.build = function() {
 							<pre><code data-trim data-noescape>
 /* Brocfile.js */
 
-var tree;
-// ...
+var tree = 'app/';
+// @TODO transform tree
 
 module.exports = tree;
 							</code></pre>
@@ -245,38 +245,68 @@ broccoli build outputPath
 					</script>
 				</section>
 
-				<section data-markdown data-background-image="img/puzzle.png" data-background-size="60%">
-					<script type="text/template">
-						## Constructor
+				<section data-background-image="img/puzzle.png" data-background-size="60%">
+					<h2>Constructor</h2>
 
-						```
-						new Plugin(inputNodes, options)
-						```
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li><b>inputNodes</b>: Tree/s de entrada</li>
+								<li><b>Options</b>:
+									<ul>
+										<li><b>name</b>: Nombre del plugin</li>
+			  							<li><b>annotation</b>: Texto descriptivo</li>
+			  							<li><b>persistentOutput</b>: Persistencia de temporales</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 
-						- `inputNodes`: Tree/s de entrada
-						- `options`:
-						  - `name`: Nombre del plugin
-						  - `annotation`: Texto descriptivo
-						  - `persistentOutput`: Persistencia de temporales
-					</script>
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+var Plugin = require('broccoli-plugin');
+
+MyPlugin.prototype = Object.create(Plugin.prototype);
+
+MyPlugin.prototype.constructor = MyPlugin;
+function MyPlugin(inputNodes, options) {
+  options = options || {};
+  Plugin.call(this, inputNodes, {
+	annotation: options.annotation
+  });
+  this.options = options;
+}
+							</code></pre>
+						</div>
+					</div>
 				</section>
 
-				<section data-markdown data-background-image="img/puzzle.png" data-background-size="60%">
-					<script type="text/template">
-						## Build
+				<section data-background-image="img/puzzle.png" data-background-size="60%">
+					<h2>Build</h2>
 
-						```
-						Plugin.prototype.build()
-						```
+					<p>Es la función que se ejecuta en cada (re)build.</br>
+						Variables de contexto (sólo lectura):</p>
 
-						Es la función que se ejecuta en cada (re)build.
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li><b>this.inputPaths</b>: Tree/s de entrada</li>
+								<li><b>this.outputPath</b>: Directorio temporal de escritura (`persistentOutput`)</li>
+								<li><b>this.cachePath</b>: Directorio auxiliar de caché (persistente entre builds)</li>
+							</ul>
+						</div>
 
-						Variables de contexto (sólo lectura):
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+MyPlugin.prototype.build = function() {
+  var inputBuffer = fs.readFileSync(path.join(this.inputPaths[2], 'foo.txt'));
+  var outputBuffer = someCompiler(inputBuffer);
 
-						- `this.inputPaths`: Tree/s de entrada
-						- `this.outputPath`: Directorio temporal de escritura (`persistentOutput`)
-						- `this.cachePath`: Directorio auxiliar de caché (persistente entre builds)
-					</script>
+  fs.writeFileSync(path.join(this.outputPath, 'bar.txt'), outputBuffer);
+};
+							</code></pre>
+						</div>
+					</div>
 				</section>
 
 				<section>
