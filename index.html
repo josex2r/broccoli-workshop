@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Broccoli.js</title>
 
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/reveal.css">
@@ -291,7 +291,7 @@ function MyPlugin(inputNodes, options) {
 						<div class="col-xs-12">
 							<ul>
 								<li><b>this.inputPaths</b>: Tree/s de entrada</li>
-								<li><b>this.outputPath</b>: Directorio temporal de escritura (`persistentOutput`)</li>
+								<li><b>this.outputPath</b>: Directorio temporal de escritura (<b>persistentOutput</b>)</li>
 								<li><b>this.cachePath</b>: Directorio auxiliar de caché (persistente entre builds)</li>
 							</ul>
 						</div>
@@ -318,15 +318,46 @@ MyPlugin.prototype.build = function() {
 				<section>
 					<h2>Debugging</h2>
 
-					<p>Fight!</p>
+					<a href="https://github.com/stefanpenner/broccoli-stew" target="_blank">broccoli-stew</a>
+
+					<p><b>env</b>, <b>log</b>, <b>debug</b>, <b>beforeBuild</b>, <b>afterBuild</b>, <b>wrapBuild</b>, ...</p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+// Brocfile.js
+var Funnel = require('broccoli-funnel');
+var ES2015 = require('broccoli-es6modules');
+var log = require('broccoli-stew').log;
+
+var app = new Funnel('app', {
+  destDir: 'my-app-name'
+});
+
+var loggedApp = log(app, { output: 'tree', label: 'my-app-name tree' });
+
+var transpiledTree = new ES2015(loggedApp);
+
+module.exports = transpiledTree;
+							</code></pre>
+						</div>
+					</div>
 				</section>
 
 				<section>
-					<h2>Módulos interesantes</h2>
+					<h2>Ejemplo 3</h2>
 
-					<p>
-						npm
-					</p>
+					<p>Debugging</p>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## npm
+
+						> keyword ‘broccoli-plugin’
+
+						![npm](img/npm.png)
+					</script>
 				</section>
 
 				<section>

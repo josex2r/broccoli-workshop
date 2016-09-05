@@ -18,6 +18,7 @@ Presentación e introducción a [broccoli.js](http://broccolijs.com/) en españo
   - [Constructor](#constructor)
   - [Build](#build)
 - [Debugging](#debugging)
+- [Publicación en npm](#publicacion-en-npm)
 
 ## ¿Qué es broccoli.js?
 
@@ -204,3 +205,13 @@ MyPlugin.prototype.build = function() {
 ```
 
 ## Debugging
+
+La parte dolorosa de todo los desarrollos, y como no podían ser menos, nos lo han puesto difícil.
+
+Debugear los árboles de broccoli es una tarea compleja y para ello tendremos que encapsular `trees` dentro de otros `trees`.
+
+Afortunadamente tenemos algunos paquetes que nos dan herramientas para facilitarnos el trabajo, como broccoli-stew[(https://github.com/stefanpenner/broccoli-stew)].
+
+## Publicación en npm
+
+Simplemente añade la keyword `broccoli-plugin` a tu fichero `package.json`.
