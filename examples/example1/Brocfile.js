@@ -14,7 +14,7 @@ var cssTree = new sass(['styles'], 'main.scss', 'application.css');
 var lintTree = new eslint('lib');
 
 // Transpile es6 code & generate application.js file
-var appTree = new compileES6('lib', {
+var appTree = new compileES6(lintTree, {
     inputFiles: [
         '**/*.js'
     ],
