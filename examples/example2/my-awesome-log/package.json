@@ -1,0 +1,15 @@
+{
+  "name": "my-awesome-log",
+  "version": "1.0.0",
+  "description": "my awesome log",
+  "main": "index.js",
+  "author": "josex2r",
+  "license": "MIT",
+  "devDependencies": {
+    "broccoli-plugin": "^1.2.2",
+    "walk-sync": "^0.3.1",
+    "rimraf": "^2.5.4",
+    "symlink-or-copy": "^1.1.6",
+    "walk-sync": "^0.3.1"
+  }
+}
