@@ -19,6 +19,7 @@ Presentación e introducción a [broccoli.js](http://broccolijs.com/) en españo
   - [Build](#build)
 - [Debugging](#debugging)
 - [Publicación en npm](#publicacion-en-npm)
+- [Broccoli + Ember](#broccoli-ember)
 
 ## ¿Qué es broccoli.js?
 
@@ -215,3 +216,9 @@ Afortunadamente tenemos algunos paquetes que nos dan herramientas para facilitar
 ## Publicación en npm
 
 Simplemente añade la keyword `broccoli-plugin` a tu fichero `package.json`.
+
+## Broccoli + Ember
+
+> [https://github.com/ember-cli/ember-cli/blob/master/lib/broccoli/ember-app.js#L199](https://github.com/ember-cli/ember-cli/blob/master/lib/broccoli/ember-app.js#L199)
+
+![Ember](img/ember.png)
