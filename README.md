@@ -45,7 +45,7 @@ Otra de sus características más importantes es el uso de la `caché`, la cual 
 
 Como hemos comentado anteriormente, un **tree** es un directorio.
 
-Si lo comparamos con otras herramientas podríamos pensar que un **tree** está formado por un solo fichero o un **stream** de datos, pero la filosofía de [broccoli.js](http://broccolijs.com/) es compilar un proyecto entero y raramente tenemos que manejar ficheros individuales.
+Si lo comparamos con otras herramientas podríamos pensar que un **tree** está formado por un solo fichero o un **stream** de datos, pero al compilar un proyecto entero raramente tenemos que manejar ficheros aislados, utilizamos directorios para agrupar distintos tipos de ficheros.
 
 > tree-goes-in-tree-goes-out
 
@@ -56,7 +56,7 @@ Ejemlpo:
 ```javascript
 var compileSass = require('broccoli-sass');
 
-var styles = compileSass(['scss', 'sass-vendors'], 'main.scss', 'app.css');
+var styles = new compileSass(['scss', 'sass-vendors'], 'main.scss', 'app.css');
 ```
 
 ### Encadenamiento
@@ -73,8 +73,8 @@ var esTranspiler = require('broccoli-babel-transpiler');
 var concat = require('broccoli-concat');
 
 var tree = new JSHinter('app');
-tree = esTranspiler(tree);
-tree = concat(tree, {
+tree = new esTranspiler(tree);
+tree = new concat(tree, {
   outputFile: 'app.js'
 });
 ```
@@ -170,7 +170,7 @@ El constructor de todo **plugin** va a recibir dos parámetros:
   - `annotation`: Texto descriptivo
   - `persistentOutput`: Si el árbol de salida debe ser cacheado
 
-Es necesario llamar al constructor de la clase padre desde nuestro plugin, es por ello que casi todos los plugins se inicialicen de la misma manera:
+Es necesario llamar al constructor de la clase padre desde nuestro plugin, es por ello que casi todos los plugins se inicializan de la misma manera:
 
 ```javascript
 var Plugin = require('broccoli-plugin');
