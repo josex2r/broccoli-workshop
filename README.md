@@ -1,8 +1,6 @@
-# broccoli-workshop
+# Introducción a [broccoli.js](http://broccolijs.com/) en español
 
-Presentación e introducción a [broccoli.js](http://broccolijs.com/) en español.
-
-[Check the example page!](https://josex2r.github.io/broccoli-workshop/#/)
+Enlace a las [disapositivas](https://josex2r.github.io/broccoli-workshop/#/).
 
 ## Índice
 
