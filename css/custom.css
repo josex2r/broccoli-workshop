@@ -7,3 +7,8 @@
 .backgrounds {
     opacity: .3;
 }
+
+code.big {
+    font-size: 55%;
+    line-height: 1.3;
+}

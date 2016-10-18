@@ -114,6 +114,72 @@ tree = concat(tree, {
 					</div>
 				</section>
 
+				<section data-background-image="img/grunt.png" data-background-size="60%">
+					<h2>Diff Grunt</h2>
+
+					<div class="row">
+						<div class="col-xs-6">
+							<pre><code data-trim data-noescape class="big">
+module.exports = function(grunt) {
+  grunt.initConfig({
+    clean: {
+      dist: {
+        src: 'dist'
+      },
+      tmp: {
+        src: 'tmp'
+      }
+    },
+    eslint: {
+      src: {
+        src: ['app/**/*.js']
+      }
+    },
+    babel: {
+      options: {
+        comments: false,
+        sourceMap: false,
+        presets: ['es2015']
+      },
+      dist: {
+        files: {
+          'tmp/*.js': 'src/**/*.js'
+        }
+      }
+    },
+							</code></pre>
+						</div>
+						<div class="col-xs-6">
+							<pre><code data-trim data-noescape class="big">
+    concat: {
+      dist: {
+        src: ['tmp/*.js'],
+        dest: 'dist/app.js'
+      },
+    },
+    watch: {
+      js: {
+        files: 'app/**/*.js',
+        tasks: ['eslint', 'babel', 'concat']
+      }
+    }
+  });
+
+  // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+
+  // Default task.
+  grunt.registerTask('default', ['clean', 'eslint', 'babel', 'concat']);
+};
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
 				<section data-background-image="img/nodejs.png" data-background-size="60%">
 					<h2>File System API</h2>
 
