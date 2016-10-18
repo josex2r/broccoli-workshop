@@ -7,8 +7,11 @@ var sass = require('broccoli-sass');
 // Copy static files
 var publicTree = 'public';
 
+// Copy static files
+var vendorTree = 'vendor';
+
 // Compile styles
-var cssTree = new sass(['styles'], 'main.scss', 'application.css');
+var cssTree = new sass(['styles'], 'main.scss', 'app.css');
 
 // Run eslint
 var lintTree = new eslint('lib');
@@ -26,5 +29,11 @@ var appTree = new compileES6(lintTree, {
     outputFile: '/application.js'
 });
 
+var appVendorTree = mergeTrees([vendorTree, appTree]);
+
+var jsTree = new concat(appVendorTree, {
+    outputFile: 'app.js'
+});
+
 // Merge all trees
-module.exports = mergeTrees([appTree, publicTree, cssTree]);
+module.exports = mergeTrees([jsTree, publicTree, cssTree]);

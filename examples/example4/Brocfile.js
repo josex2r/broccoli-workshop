@@ -15,7 +15,8 @@ var publicTree = 'public';
 var cssTree = new sass(['styles'], 'main.scss', 'application.css');
 
 // Remove exception file
-var appTree = rm('lib', 'exception.js');
+var appTree = 'lib';
+appTree = rm(appTree, 'exception.js');
 
 // Transpile es6 code & generate application.js file
 appTree = new compileES6(appTree, {
@@ -44,7 +45,7 @@ appTree = afterBuild(appTree, function(output) {
 });
 
 // Check if we are including a hidden system file in the public tree (.gitignore)
-var test = log(find(publicTree, '.*', { overwrite: true }));
+var test = log(find(publicTree, '\.*', { overwrite: true }));
 
 // Merge all trees
 module.exports = mergeTrees([appTree, publicTree, cssTree, test]);
