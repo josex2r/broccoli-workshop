@@ -207,6 +207,17 @@ broccoli-caching-writer@^2.0.4, broccoli-caching-writer@^2.3.1:
     rsvp "^3.0.17"
     walk-sync "^0.2.5"
 
+broccoli-caching-writer@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/broccoli-caching-writer/-/broccoli-caching-writer-3.0.3.tgz#0bd2c96a9738d6a6ab590f07ba35c5157d7db476"
+  dependencies:
+    broccoli-kitchen-sink-helpers "^0.3.1"
+    broccoli-plugin "^1.2.1"
+    debug "^2.1.1"
+    rimraf "^2.2.8"
+    rsvp "^3.0.17"
+    walk-sync "^0.3.0"
+
 broccoli-concat@^2.3.4:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/broccoli-concat/-/broccoli-concat-2.3.8.tgz#590cdcc021bb905b6c121d87c2d1d57df44a2a48"
@@ -303,7 +314,7 @@ broccoli-persistent-filter@^1.1.6, broccoli-persistent-filter@^1.2.0:
     symlink-or-copy "^1.0.1"
     walk-sync "^0.3.1"
 
-broccoli-plugin@^1.0.0, broccoli-plugin@^1.2.2:
+broccoli-plugin@^1.0.0, broccoli-plugin@^1.2.1, broccoli-plugin@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/broccoli-plugin/-/broccoli-plugin-1.2.2.tgz#0ed4320c20344487d0a2afafb963d52ee5179ab0"
   dependencies:
