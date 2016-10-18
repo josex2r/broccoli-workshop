@@ -11,19 +11,15 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli": "^0.16.9",
-    "broccoli-caching-writer": "^3.0.3",
     "broccoli-concat": "^2.3.4",
     "broccoli-es6-concatenator": "^0.1.11",
     "broccoli-lint-eslint": "^3.1.0",
     "broccoli-merge-trees": "^1.1.4",
-    "broccoli-plugin": "^1.2.2",
     "broccoli-sass": "^0.7.0",
+    "broccoli-stew": "^1.3.2",
     "eslint-config-bbva": "^1.0.3"
   },
   "peerDependencies": {
     "eslint": "^3.3.1"
-  },
-  "dependencies": {
-    "my-awesome-log": "file:my-awesome-log"
   }
 }

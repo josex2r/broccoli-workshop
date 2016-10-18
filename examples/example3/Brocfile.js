@@ -1,23 +1,30 @@
+var eslint = require('broccoli-lint-eslint');
 var compileES6 = require('broccoli-es6-concatenator');
 var concat = require('broccoli-concat');
 var mergeTrees = require('broccoli-merge-trees');
 var sass = require('broccoli-sass');
-var log = require('broccoli-stew').log;
-var find = require('broccoli-stew').find;
-var beforeBuild = require('broccoli-stew').beforeBuild;
-var afterBuild = require('broccoli-stew').afterBuild;
-var rm = require('broccoli-stew').rm;
+var myAwesomeLog = require('my-awesome-log');
 
 // Copy static files
-var publicTree = 'public';
+var publicTreeWithLog = new myAwesomeLog(['public'], {
+    annotation: 'publicTree'
+});
 
 // Compile styles
-var cssTree = new sass(['styles'], 'main.scss', 'application.css');
+var cssTreeWithLog = new myAwesomeLog(['styles'], {
+    annotation: 'cssTree'
+});
+var cssTree = new sass([cssTreeWithLog], 'main.scss', 'application.css');
+
+// Run eslint
+var appTreeWithLog = new myAwesomeLog(['lib'], {
+    annotation: 'appTree'
+})
 
 // Transpile es6 code & generate application.js file
-var appTree = new compileES6('lib', {
+var appTree = new compileES6(appTreeWithLog, {
     inputFiles: [
-        '**/*'
+        '**/*.js'
     ],
     ignoredModules: [
       'loader'
@@ -27,21 +34,5 @@ var appTree = new compileES6('lib', {
     outputFile: '/application.js'
 });
 
-// Write a message before transpile es6 code
-appTree = beforeBuild(appTree, function(output) {
-    console.log('\n', '[beforeBuild]', '\n');
-});
-
-// Log eslint files
-appTree = log(appTree, { output: 'tree', label: 'eslint tree' });
-
-// Write a message after transpile es6 code
-appTree = afterBuild(appTree, function(output) {
-    console.log('\n', '[afterBuild]', 'output path:', output, '\n');
-});
-
-// Check if we are including a hidden system file in the public tree (.gitignore)
-var test = log(find(publicTree, '.*', { overwrite: true }));
-
 // Merge all trees
-module.exports = mergeTrees([appTree, publicTree, cssTree, test]);
+module.exports = mergeTrees([appTree, publicTreeWithLog, cssTree]);
