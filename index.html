@@ -80,7 +80,7 @@
 							<pre><code data-trim data-noescape>
 var compileSass = require('broccoli-sass');
 
-var styles = compileSass(['scss', 'sass-vendors'], 'main.scss', 'app.css');
+var styles = compileSass(['scss', 'vendors'], 'main.scss', 'app.css');
 							</code></pre>
 						</div>
 					</div>
@@ -107,7 +107,7 @@ var concat = require('broccoli-concat');
 var tree = new JSHinter('app');
 tree = esTranspiler(tree);
 tree = concat(tree, {
-  outputFile: 'app.js'
+  'outputFile': 'app.js'
 });
 							</code></pre>
 						</div>
@@ -196,28 +196,28 @@ var runSequence = require('run-sequence')
 gulp.task('default', ['eslint', 'build', 'watch']);
 
 gulp.task('eslint', function() {
-	return gulp.src('app/**/*.js')
-		.pipe(eslint());
+    return gulp.src('app/**/*.js')
+        .pipe(eslint());
 });
-							</code></pre>
-						</div>
-						<div class="col-xs-6">
-							<pre><code data-trim data-noescape class="normal">
+                            </code></pre>
+                        </div>
+                        <div class="col-xs-6">
+                            <pre><code data-trim data-noescape class="normal">
 gulp.task('build', function() {
-	return gulp.src('app/**/*.js')
-		.pipe(babel({
-			'presets': ['es2015']
-		}))
-		.pipe(concat('app.js'))
-		.pipe(gulp.dest('dist'));
+    return gulp.src('app/**/*.js')
+        .pipe(babel({
+            'presets': ['es2015']
+        }))
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function() {
-	watch('app/**/*.js', function() {
-		runSequence(
-			['eslint', 'build']
-		);
-	});
+    watch('app/**/*.js', function() {
+        runSequence(
+            ['eslint', 'build']
+        );
+    });
 });
 							</code></pre>
 						</div>
@@ -243,11 +243,11 @@ var Plugin = require('broccoli-plugin');
 MyPlugin.prototype = Object.create(Plugin.prototype);
 MyPlugin.prototype.constructor = MyPlugin;
 function MyPlugin(inputNode) {
-  Plugin.call(this, [inputNode]);
+    Plugin.call(this, [inputNode]);
 }
 
 MyPlugin.prototype.build = function() {
-  // Build from this.inputPaths[0] to this.outputPath
+    // Build from this.inputPaths[0] to this.outputPath
 };
 							</code></pre>
 						</div>
@@ -379,11 +379,11 @@ MyPlugin.prototype = Object.create(Plugin.prototype);
 
 MyPlugin.prototype.constructor = MyPlugin;
 function MyPlugin(inputNodes, options) {
-  options = options || {};
-  Plugin.call(this, inputNodes, {
-	annotation: options.annotation
-  });
-  this.options = options;
+    options = options || {};
+    Plugin.call(this, inputNodes, {
+        annotation: options.annotation
+    });
+    this.options = options;
 }
 							</code></pre>
 						</div>
@@ -391,7 +391,7 @@ function MyPlugin(inputNodes, options) {
 				</section>
 
 				<section data-background-image="img/puzzle.png" data-background-size="60%">
-					<h2>Build</h2>
+					<h2>.build()</h2>
 
 					<p>Es la función que se ejecuta en cada (re)build.</br>
 						Variables de contexto (sólo lectura):</p>
@@ -408,10 +408,59 @@ function MyPlugin(inputNodes, options) {
 						<div class="col-xs-12">
 							<pre><code data-trim data-noescape>
 MyPlugin.prototype.build = function() {
-  var inputBuffer = fs.readFileSync(path.join(this.inputPaths[2], 'foo.txt'));
-  var outputBuffer = someCompiler(inputBuffer);
+    var inputBuffer = fs.readFileSync(path.join(this.inputPaths[2], 'foo.txt'));
+    var outputBuffer = someCompiler(inputBuffer);
 
-  fs.writeFileSync(path.join(this.outputPath, 'bar.txt'), outputBuffer);
+    fs.writeFileSync(path.join(this.outputPath, 'bar.txt'), outputBuffer);
+};
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
+				<section data-background-image="img/puzzle.png" data-background-size="60%">
+					<h2>.getCallbackObject()</h2>
+
+					<p>Es una función de uso avanzado.</br>
+						Devuelve el contexto sobre el que se ejecutará la función <strong>build()</strong></p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+MyPlugin.prototype.getCallbackObject = function() {
+    return {
+      cachePath: '/tmp',
+      build: this.buildWrapper.bind(this)
+    };
+};
+							</code></pre>
+						</div>
+					</div>
+				</section>
+
+				<section data-background-image="img/puzzle.png" data-background-size="60%">
+					<h2>Errores</h2>
+
+					<p>Los errores que lanzan los plugins tienen propiedades customizadas para saber qué ha fallado</p>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								<li><b>message</b> (js nativo)</li>
+								<li><b>file</b></li>
+								<li><b>treeDir</b></li>
+								<li><b>line</b></li>
+								<li><b>column</b></li>
+							</ul>
+						</div>
+
+						<div class="col-xs-12">
+							<pre><code data-trim data-noescape>
+MyPlugin.prototype.getCallbackObject = function() {
+    return {
+      cachePath: '/tmp',
+      build: this.buildWrapper.bind(this)
+    };
 };
 							</code></pre>
 						</div>
