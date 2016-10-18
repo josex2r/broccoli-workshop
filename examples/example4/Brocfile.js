@@ -14,8 +14,11 @@ var publicTree = 'public';
 // Compile styles
 var cssTree = new sass(['styles'], 'main.scss', 'application.css');
 
+// Remove exception file
+var appTree = rm('lib', 'exception.js');
+
 // Transpile es6 code & generate application.js file
-var appTree = new compileES6('lib', {
+appTree = new compileES6(appTree, {
     inputFiles: [
         '**/*'
     ],
