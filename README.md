@@ -6,22 +6,22 @@ Presentación e introducción a [broccoli.js](http://broccolijs.com/) en españo
 
 ## Índice
 
-- [Broccoli.js](#broccoli-js)
+- [Broccoli.js](#qué-es-broccolijs)
 - [Arquitectura](#arquitectura)
   - [Trees](#trees)
   - [Encadenamiento](#encadenamiento)
   - [File System API](#file-system-api)
-  - [Caché](#cache)
-- [Brocfile.js](#brocfile-js)
+  - [Caché](#caché)
+- [Brocfile.js](#brocfilejs)
 - [cli](#cli)
 - [Plugins](#plugins)
   - [Constructor](#constructor)
-  - [Plugin.prototype.build](#plugin-prototype-build)
-  - [Plugin.prototype.getCallbackObject](#plugin-prototype-getCallbackObject)
+  - [Plugin.prototype.build](#pluginprototypebuild)
+  - [Plugin.prototype.getCallbackObject](#pluginprototypegetcallbackobject)
   - [Errores](#errores)
 - [Debugging](#debugging)
-- [Publicación en npm](#publicacion-en-npm)
-- [Broccoli + Ember](#broccoli-ember)
+- [Publicación en npm](#publicación-en-npm)
+- [Broccoli + Ember](#broccoli--ember)
 
 ## ¿Qué es broccoli.js?
 
