@@ -16,7 +16,9 @@ Presentación e introducción a [broccoli.js](http://broccolijs.com/) en españo
 - [cli](#cli)
 - [Plugins](#plugins)
   - [Constructor](#constructor)
-  - [Build](#build)
+  - [Plugin.prototype.build](#plugin-prototype-build)
+  - [Plugin.prototype.getCallbackObject](#plugin-prototype-getCallbackObject)
+  - [Errores](#errores)
 - [Debugging](#debugging)
 - [Publicación en npm](#publicacion-en-npm)
 - [Broccoli + Ember](#broccoli-ember)
@@ -160,7 +162,7 @@ Los **plugins** deben exportar una clase que extienda del paquete [broccoli-plug
 
 A la hora de utilizarlos se deben instanciar con la palabra `new` (convención).
 
-### constructor
+### Constructor
 
 El constructor de todo **plugin** va a recibir dos parámetros:
 
@@ -187,7 +189,7 @@ function MyPlugin(inputNodes, options) {
 }
 ```
 
-### Build
+### Plugin.prototype.build
 
 Esta función se ejecutará en cada (re)build.
 Para realizar las operaciones sobre los **trees** disponemos de una serie de variables de contexto (sólo lectura):
@@ -205,6 +207,45 @@ MyPlugin.prototype.build = function() {
 };
 ```
 
+### Plugin.prototype.getCallbackObject
+
+Esta función no es algo que utilizaremos normalmente ya que su uso implica un cambio de contexto en el plugin.
+
+El objeto que devuelve esta función es el que se utiliza para llamar a la función `build`. Normalmente se utiliza para modificar los directorios sobre los que actúa el plugin o para wrappear la función `build`.
+
+```javascript
+MyPlugin.prototype.getCallbackObject = function() {
+  return {
+    cachePath: '/tmp',
+    build: this.buildWrapper.bind(this)
+  };
+};
+```
+
+### Errores
+
+Existe cierta convención en los atributos que puede tener un error, esto quiere decir que los plugins pueden devolver promesas rechazadas con un objeto javascript.
+
+Las propiedades de este objeto son:
+- `message`: Mensaje de error (propiedad nativa de JS)
+- `file`: Fichero en el que se ha producido la excepción
+- `treeDir`: Directorio del fichero (debe ser un elemento del array `this.inputPaths`)
+- `line`: Línea en la que se ha producido el error
+- `column`: Columna en la que se ha producido el error
+
+```javascript
+MyPlugin.prototype.build = function() {
+  var self = this;
+
+  return new Promise(function(resolve, reject) {
+    reject ({
+      message: self.inputPaths[0] + 'is not a directory',
+      treeDir: self.inputPaths[0]
+    });
+  });
+};
+```
+
 ## Debugging
 
 La parte dolorosa de todo los desarrollos, y como no podían ser menos, nos lo han puesto difícil.
@@ -218,6 +259,15 @@ Afortunadamente tenemos algunos paquetes que nos dan herramientas para facilitar
 Simplemente añade la keyword `broccoli-plugin` a tu fichero `package.json`.
 
 ## Broccoli + Ember
+
+Los árboles que utiliza `ember-cli` para generar el directorio de la aplicación son:
+- `app`: Ficheros javascript de la aplicación (`/app/**/*.js`)
+- `tests`: Tests de la aplicación (`/tests`)
+- `public`: Ficheros estáticos (`/public`)
+- `styles`: Ficheros sass (`/app/styles`)
+- `templates`: Plantillas htmlbars (`/app/**/*.hbs`)
+- `bower`: Librerías descargadas con **bower** (`/bower_components`)
+- `vendor`: Librerías de terceros (`/vendor`)
 
 > [https://github.com/ember-cli/ember-cli/blob/master/lib/broccoli/ember-app.js#L199](https://github.com/ember-cli/ember-cli/blob/master/lib/broccoli/ember-app.js#L199)
 
