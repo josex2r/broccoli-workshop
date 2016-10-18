@@ -441,8 +441,6 @@ MyPlugin.prototype.getCallbackObject = function() {
 				<section data-background-image="img/puzzle.png" data-background-size="60%">
 					<h2>Errores</h2>
 
-					<p>Los errores que lanzan los plugins tienen propiedades customizadas para saber qué ha fallado</p>
-
 					<div class="row">
 						<div class="col-xs-12">
 							<ul>
@@ -456,11 +454,15 @@ MyPlugin.prototype.getCallbackObject = function() {
 
 						<div class="col-xs-12">
 							<pre><code data-trim data-noescape>
-MyPlugin.prototype.getCallbackObject = function() {
-    return {
-      cachePath: '/tmp',
-      build: this.buildWrapper.bind(this)
-    };
+MyPlugin.prototype.build = function() {
+    var self = this;
+
+    return new Promise(function(resolve, reject) {
+        reject ({
+            message: self.inputPaths[0] + 'is not a directory',
+            treeDir: self.inputPaths[0]
+        });
+    });
 };
 							</code></pre>
 						</div>
